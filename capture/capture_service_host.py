@@ -45,7 +45,7 @@ ANALYSIS_FILE = os.path.join(VIDEO_OUTPUT_DIR, ".analysis")
 SPLAT_STATUS_FILE = os.path.join(VIDEO_OUTPUT_DIR, ".splat_status")
 SPLAT_OUTPUT_DIR = os.path.join(VIDEO_OUTPUT_DIR, "splat_sessions")
 MAX_RECORDING_DURATION = 3600  # 1 hour max per file
-SPLAT_INTERVAL_SECONDS = 3  # Seconds between still captures
+SPLAT_INTERVAL_SECONDS = 0.5  # Seconds between still captures
 SPLAT_MAX_IMAGES = 500  # Safety limit on number of images
 
 # Target brightness range (0-255 scale)
@@ -886,10 +886,10 @@ class CaptureService:
             # Also keep writing live frame during splat capture
             self._writeLiveFrame()
 
-            # Wait for next interval (checking stop event every 0.5s)
+            # Wait for next interval (checking stop event every 0.1s)
             waitEnd = time.time() + SPLAT_INTERVAL_SECONDS
             while time.time() < waitEnd and not self.splatStopEvent.is_set():
-                time.sleep(0.5)
+                time.sleep(0.1)
 
         self.splatCapturing = False
 
